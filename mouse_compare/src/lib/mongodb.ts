@@ -1,6 +1,8 @@
+'use server';
+
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/mice_compare';
+const uri = process.env.MONGODB_URI || 'mongodb://admin:admin123@localhost:27017/mouse_compare?authSource=admin';
 const options = {};
 
 let client: MongoClient;

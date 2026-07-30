@@ -39,3 +39,8 @@ export async function requireRole(request: NextRequest, allowedRoles: string[]) 
 
   return { user: auth.user };
 }
+
+export async function getUserFromRequest(request: NextRequest): Promise<{ userId: string; email: string; role: string; name: string } | null> {
+  const user = await getCurrentUser(request);
+  return user as { userId: string; email: string; role: string; name: string } | null;
+}

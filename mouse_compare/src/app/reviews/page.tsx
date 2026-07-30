@@ -147,6 +147,17 @@ export default function ReviewsPage() {
   const [formRating, setFormRating] = useState(5);
   const [submitting, setSubmitting] = useState(false);
   const [serverReviews, setServerReviews] = useState<{ id: string; userName: string; mouseName: string; text: string; rating: number; createdAt: string }[]>([]);
+  const [expandedReviews, setExpandedReviews] = useState<Set<string>>(new Set());
+
+  const toggleExpand = (id: string | number) => {
+    setExpandedReviews(prev => {
+      const next = new Set(prev);
+      const key = String(id);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
 
   useEffect(() => {
     fetch('/api/reviews').then(r => r.json()).then(d => setServerReviews(d.reviews || [])).catch(() => {});
@@ -300,11 +311,8 @@ export default function ReviewsPage() {
           <a href="https://www.hardwarecanucks.com" target="_blank" rel="noopener noreferrer" className="opacity-60 transition-opacity hover:opacity-100">
             <img src="/assets/reviews/hardwarecanucks.png" alt="HardwareCanucks" className="h-6 w-auto" />
           </a>
-          <a href="https://boardzy.com" target="_blank" rel="noopener noreferrer" className="opacity-60 transition-opacity hover:opacity-100">
+          <a href="https://www.youtube.com/@boardzy" target="_blank" rel="noopener noreferrer" className="opacity-60 transition-opacity hover:opacity-100">
             <img src="/assets/reviews/boardzy.png" alt="Boardzy" className="h-6 w-auto" />
-          </a>
-          <a href="https://www.youtube.com/@Optimum" target="_blank" rel="noopener noreferrer" className="opacity-60 transition-opacity hover:opacity-100">
-            <img src="/assets/reviews/optimum.png" alt="Optimum" className="h-6 w-auto" />
           </a>
           <a href="https://www.youtube.com/@Randomfrankp" target="_blank" rel="noopener noreferrer" className="opacity-60 transition-opacity hover:opacity-100">
             <img src="/assets/reviews/randomfrankp.png" alt="RandomFrankP" className="h-6 w-auto" />
@@ -327,9 +335,11 @@ export default function ReviewsPage() {
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1a1a26] text-xs font-bold text-[#6c5ce7]">
-                    {review.userName[0]}
-                  </span>
+                  <img
+                    src={`https://api.dicebear.com/9.x/avataaars/svg?seed=${review.userName}`}
+                    alt={review.userName}
+                    className="h-9 w-9 rounded-full bg-[#1a1a26]"
+                  />
                   <div>
                     <div className="flex items-center gap-1.5 text-sm font-medium text-[#e8e8ed]">
                       {review.userName}
@@ -345,7 +355,13 @@ export default function ReviewsPage() {
               </div>
 
               <div className="mb-2 text-xs font-medium text-[#6c5ce7]">{review.mouseName}</div>
-              <p className="text-xs leading-relaxed text-[#9a9aab] line-clamp-3">{review.text}</p>
+              <p className={`text-xs leading-relaxed text-[#9a9aab] ${expandedReviews.has(review.id) ? '' : 'line-clamp-3'}`}>{review.text}</p>
+              <button
+                onClick={() => toggleExpand(review.id)}
+                className="mt-2 flex items-center gap-1 text-xs font-medium text-[#6c5ce7] hover:text-[#7c6cf7] transition-colors"
+              >
+                {expandedReviews.has(review.id) ? 'Show less' : 'Read more'} <ChevronRight className={`h-3 w-3 transition-transform ${expandedReviews.has(review.id) ? 'rotate-90' : ''}`} />
+              </button>
             </div>
           ))}
           {sampleReviews.map((review, idx) => (
@@ -356,9 +372,11 @@ export default function ReviewsPage() {
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1a1a26] text-xs font-bold text-[#6c5ce7]">
-                    {review.avatar}
-                  </span>
+                  <img
+                    src={`https://api.dicebear.com/9.x/avataaars/svg?seed=${review.user}`}
+                    alt={review.user}
+                    className="h-9 w-9 rounded-full bg-[#1a1a26]"
+                  />
                   <div>
                     <div className="flex items-center gap-1.5 text-sm font-medium text-[#e8e8ed]">
                       {review.user}
@@ -385,10 +403,13 @@ export default function ReviewsPage() {
                 <ScoreBar label="Shape" value={review.scores.shape} />
               </div>
 
-              <p className="text-xs leading-relaxed text-[#9a9aab] line-clamp-3">{review.text}</p>
+              <p className={`text-xs leading-relaxed text-[#9a9aab] ${expandedReviews.has(String(review.id)) ? '' : 'line-clamp-3'}`}>{review.text}</p>
 
-              <button className="mt-2 flex items-center gap-1 text-xs font-medium text-[#6c5ce7] hover:text-[#7c6cf7] transition-colors">
-                Read more <ChevronRight className="h-3 w-3" />
+              <button
+                onClick={() => toggleExpand(review.id)}
+                className="mt-2 flex items-center gap-1 text-xs font-medium text-[#6c5ce7] hover:text-[#7c6cf7] transition-colors"
+              >
+                {expandedReviews.has(String(review.id)) ? 'Show less' : 'Read more'} <ChevronRight className={`h-3 w-3 transition-transform ${expandedReviews.has(String(review.id)) ? 'rotate-90' : ''}`} />
               </button>
             </div>
           ))}

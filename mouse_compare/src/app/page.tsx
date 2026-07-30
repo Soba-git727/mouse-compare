@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GitCompare, Shapes, Calculator, MessageSquare, ArrowRight, Sparkles } from 'lucide-react';
+import { GitCompare, Shapes, Calculator, MessageSquare, ArrowRight } from 'lucide-react';
 
 const features = [
   {
@@ -33,56 +33,13 @@ const features = [
 ];
 
 import { FeaturedMiceBackgrounds } from '@/components/FeaturedMiceBackgrounds';
+import { HeroSlider } from '@/components/HeroSlider';
 
 export default function Home() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:py-16 relative">
       <FeaturedMiceBackgrounds />
-      {/* Hero Banner */}
-      <section className="relative mb-20 overflow-hidden rounded-2xl border border-[#2a2a3a]">
-        {/* Background: NiKo image */}
-        <div className="absolute inset-0 bg-[url('/assets/hero-niko.jpg')] bg-cover bg-center" />
-        {/* Subtle darkening at edges only, image stays vibrant */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050508]/60 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050508]/40 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_50%,transparent_40%,rgba(5,5,8,0.3)_100%)]" />
-
-        <div className="relative flex flex-col items-center gap-6 px-6 py-16 lg:flex-row lg:px-16 lg:py-24">
-          <div className="flex-1 text-center lg:text-left">
-            <div className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-[#050508]/60 px-3 py-1 text-xs font-medium text-[#6c5ce7] backdrop-blur-sm border border-[#2a2a3a]">
-              <Sparkles className="h-3 w-3" />
-              New Release — Razer DeathAdder V4 Pro NiKo Edition
-            </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-white drop-shadow-lg sm:text-4xl lg:text-6xl">
-              Find Your{' '}
-              <span className="bg-gradient-to-r from-[#6c5ce7] to-[#a29bfe] bg-clip-text text-transparent">
-                Perfect Aim
-              </span>
-            </h1>
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#c0c0cc] drop-shadow lg:mx-0 lg:text-base">
-              The ultimate gaming mouse database. Compare specs, visualize shapes, and discover
-              the perfect mouse for your hand size and grip style.
-            </p>
-            <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row lg:justify-start">
-              <Link
-                href="/compare"
-                className="flex items-center gap-2 rounded-lg bg-[#6c5ce7] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#5a4bd6] animate-pulse-glow shadow-lg"
-              >
-                <GitCompare className="h-4 w-4" />
-                Start Comparing
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/visualizer"
-                className="flex items-center gap-2 rounded-lg border border-[#ffffff30] bg-[#050508]/50 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#050508]/70 backdrop-blur-sm"
-              >
-                <Shapes className="h-4 w-4" />
-                Shape Overlay
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* Features Grid */}
       <section className="mb-20">

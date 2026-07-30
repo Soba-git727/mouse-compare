@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server';
+import { getUserCount } from '@/models';
 
-export async function GET() {
-  const { getUserCount } = await import('@/lib/store');
-  return NextResponse.json({ count: getUserCount() });
-}
+export const GET = () => NextResponse.json({ count: getUserCount() });
