@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150">
-  <rect width="200" height="150" rx="12" fill="#1a1a26"/>
-  <ellipse cx="100" cy="75" rx="55" ry="25" fill="none" stroke="#6c5ce7" stroke-width="2"/>
-  <ellipse cx="100" cy="55" rx="30" ry="15" fill="none" stroke="#6c5ce7" stroke-width="1.5" opacity="0.5"/>
-  <circle cx="100" cy="75" r="6" fill="#6c5ce7" opacity="0.6"/>
-  <rect x="80" y="48" width="40" height="8" rx="4" fill="#6c5ce7" opacity="0.3"/>
-  <text x="100" y="130" text-anchor="middle" fill="#6c5ce7" font-size="14" font-family="sans-serif" font-weight="bold">Ninjutso</text>
-</svg>

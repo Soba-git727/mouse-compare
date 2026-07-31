@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150">
-  <rect width="200" height="150" rx="12" fill="#1a1a26"/>
-  <path d="M40 120 Q60 100 80 95 L100 90 Q120 85 140 95 L160 110 Q165 120 160 130 L40 130 Z" fill="none" stroke="#6c5ce7" stroke-width="2"/>
-  <circle cx="100" cy="105" r="5" fill="#6c5ce7" opacity="0.5"/>
-  <text x="100" y="130" text-anchor="middle" fill="#6c5ce7" font-size="14" font-family="sans-serif" font-weight="bold">Endgame</text>
-</svg>
