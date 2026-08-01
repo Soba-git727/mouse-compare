@@ -2,6 +2,7 @@
 
 import { useState, useRef, useMemo, useEffect, use } from 'react';
 import type { Mouse as MouseSpec } from '@/data/mice';
+import { filterByQuery } from '@/lib/fuzzySearch';
 import {
   Search,
   X,
@@ -97,11 +98,8 @@ function MouseSpecDropdown({ miceList, selected, onSelect, onRemove }: DropdownP
 
   const filtered = useMemo(
     () =>
-      miceList.filter(
-        (m) =>
-          !selected.some((s) => s.id === m.id) &&
-          (m.name.toLowerCase().includes(query.toLowerCase()) ||
-            m.brand.toLowerCase().includes(query.toLowerCase())),
+      filterByQuery(miceList, query, (m) => [m.name, m.brand]).filter(
+        (m) => !selected.some((s) => s.id === m.id),
       ),
     [query, selected, miceList],
   );

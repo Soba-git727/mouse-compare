@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AspNetCoreAuth")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5e2c9703e7e7821b22e47896513d089c28cb4acf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+38e54cdb70c46bc78d0ee457c00fd7fa739c79e3")]
 [assembly: System.Reflection.AssemblyProductAttribute("AspNetCoreAuth")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AspNetCoreAuth")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Search, Star, Scale, Weight, Zap, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Mouse } from '@/data/mice';
+import { filterByQuery } from '@/lib/fuzzySearch';
 
 const PAGE_SIZE = 12;
 
@@ -31,15 +32,10 @@ export default function MicePage() {
       .finally(() => setLoading(false));
   }, [page]);
 
-  const filtered = mice.filter((m) => {
-    const q = query.trim().toLowerCase();
-    if (!q) return true;
-    return (
-      m.name.toLowerCase().includes(q) ||
-      m.brand.toLowerCase().includes(q) ||
-      m.sensor.toLowerCase().includes(q)
-    );
-  });
+  const filtered = useMemo(
+    () => filterByQuery(mice, query, (m) => [m.name, m.brand, m.sensor]),
+    [mice, query],
+  );
 
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 

@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '@/lib/AuthContext';
 import AuthModal from '@/components/AuthModal';
 import type { Mouse } from '@/data/mice';
+import { filterByQuery } from '@/lib/fuzzySearch';
 import {
   User,
   Lock,
@@ -34,7 +35,7 @@ type ReviewItem = {
   createdAt: string;
 };
 
-const ownedMiceIds = ['razer-viper-v3-pro', 'logitech-gpx2', 'pulsar-x2h', 'lamzu-atlantis'];
+const initialOwnedMiceIds = ['razer-viper-v3-pro', 'logitech-gpx2', 'pulsar-x2h', 'lamzu-atlantis'];
 const wishlistIds = ['finalmouse-starlight', 'vaxee-xe-wireless', 'endgame-xm2we'];
 
 const savedComparisons = [
@@ -54,9 +55,21 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [allMice, setAllMice] = useState<Mouse[]>([]);
 
-  const owned = useMemo(() => allMice.filter((m) => ownedMiceIds.includes(m.id)), [allMice]);
-  const wishlist = useMemo(() => allMice.filter((m) => wishlistIds.includes(m.id)), [allMice]);
+  const [ownedIds, setOwnedIds] = useState<string[]>(initialOwnedMiceIds);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const owned = useMemo(() => allMice.filter((m) => ownedIds.includes(m.id)), [allMice, ownedIds]);
+  const wishlist = useMemo(() => allMice.filter((m) => wishlistIds.includes(m.id)), [allMice]);
+
+  const searchResults = useMemo(() => {
+    const unowned = allMice.filter((m) => !ownedIds.includes(m.id));
+    return filterByQuery(unowned, searchQuery, (m) => [m.name, m.brand, m.sensor]);
+  }, [allMice, ownedIds, searchQuery]);
+
+  const addToCollection = (id: string) => {
+    setOwnedIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
+    setSearchQuery('');
+  };
 
   useEffect(() => {
     fetch('/api/mice')
@@ -196,6 +209,36 @@ export default function ProfilePage() {
             className="w-full rounded-lg border border-[#2a2a3a] bg-[#12121a] py-2.5 pl-10 pr-3 text-sm text-[#e8e8ed] outline-none placeholder:text-[#6a6a7a] focus:border-[#6c5ce7]/50"
           />
         </div>
+
+        {searchQuery.trim() !== '' && (
+          <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {searchResults.length === 0 ? (
+              <p className="text-sm text-[#6a6a7a]">No mice match your search.</p>
+            ) : (
+              searchResults.slice(0, 6).map((m) => (
+                <div
+                  key={m.id}
+                  className="flex items-center gap-3 rounded-lg border border-[#2a2a3a] bg-[#12121a] px-3 py-2"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[#1a1a26] text-sm font-bold text-[#6c5ce7]">
+                    {m.brand[0]}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate text-sm font-semibold text-[#e8e8ed]">{m.name}</div>
+                    <div className="text-xs text-[#6a6a7a]">{m.brand}</div>
+                  </div>
+                  <button
+                    onClick={() => addToCollection(m.id)}
+                    className="rounded-md p-1.5 text-[#6c5ce7] transition-colors hover:bg-[#1a1a26]"
+                    title="Add to collection"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        )}
       </div>
 
       {/* My Collection */}
